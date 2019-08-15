@@ -168,6 +168,7 @@
 	<module>spatial-partition</module>
 	<module>commander</module>
 	<module>typeobjectpattern</module>
+        <module>store-and-process-stream-processing</module>
     </modules>
 
     <repositories>
