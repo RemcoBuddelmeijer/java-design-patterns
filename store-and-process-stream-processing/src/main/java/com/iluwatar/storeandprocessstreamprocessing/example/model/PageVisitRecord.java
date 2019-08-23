@@ -28,4 +28,9 @@ public class PageVisitRecord extends StatefulRecord {
     this.setProcessed(Boolean.TRUE);
     return true;
   }
+
+  @Override
+  public String toString() {
+    return String.format("PageVisitRecord(processed=%s)", this.getProcessed());
+  }
 }

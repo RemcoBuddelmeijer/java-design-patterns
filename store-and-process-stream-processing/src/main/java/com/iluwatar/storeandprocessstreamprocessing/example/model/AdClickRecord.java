@@ -16,7 +16,7 @@ public class AdClickRecord extends StatefulRecord {
   public AdClickRecord(Boolean processed) {
     super(processed);
   }
-  
+
   /**
    * Processes the AdClickRecord, execute what task needs to process and set task as processed.
    * @return if processing went successful.
@@ -25,5 +25,10 @@ public class AdClickRecord extends StatefulRecord {
   public boolean process() {
     this.setProcessed(Boolean.TRUE);
     return true;
+  }
+
+  @Override
+  public String toString() {
+    return String.format("AdClickRecord(processed=%s)", this.getProcessed());
   }
 }
