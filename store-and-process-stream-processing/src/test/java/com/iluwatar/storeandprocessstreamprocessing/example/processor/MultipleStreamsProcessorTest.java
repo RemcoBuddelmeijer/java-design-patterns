@@ -4,9 +4,11 @@ import com.iluwatar.storeandprocessstreamprocessing.example.model.AdClickRecord;
 import com.iluwatar.storeandprocessstreamprocessing.example.model.PageVisitRecord;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.mockito.Mockito.verify;
 
 public class MultipleStreamsProcessorTest {
 
@@ -18,14 +20,24 @@ public class MultipleStreamsProcessorTest {
   }
 
   @Test
-  public void testWhenRecordIsAddedToBatchThatRecordIsProcessed() throws InterruptedException {
-    AdClickRecord unprocessedAdClickRecord = new AdClickRecord(Boolean.FALSE);
-    PageVisitRecord unprocessedPageVisitRecord = new PageVisitRecord(Boolean.FALSE);
+  public void testWhenAdClickRecordIsAddedToBatchThatRecordIsProcessed() throws InterruptedException {
+    AdClickRecord unprocessedAdClickRecord = Mockito.spy(new AdClickRecord(Boolean.FALSE));
 
     multipleStreamsProcessor.onAdClickRecord(unprocessedAdClickRecord);
-    multipleStreamsProcessor.onLandingPageVisitRecord(unprocessedPageVisitRecord);
+
+    verify(unprocessedAdClickRecord).process();
 
     assertThat(unprocessedAdClickRecord.getProcessed(), is(true));
+  }
+
+  @Test
+  public void testWhenPageVisitClickRecordIsAddedToBatchThatRecordIsProcessed() throws InterruptedException {
+    PageVisitRecord unprocessedPageVisitRecord = Mockito.spy(new PageVisitRecord(Boolean.FALSE));
+
+    multipleStreamsProcessor.onLandingPageVisitRecord(unprocessedPageVisitRecord);
+
+    verify(unprocessedPageVisitRecord).process();
+
     assertThat(unprocessedPageVisitRecord.getProcessed(), is(true));
   }
 }
