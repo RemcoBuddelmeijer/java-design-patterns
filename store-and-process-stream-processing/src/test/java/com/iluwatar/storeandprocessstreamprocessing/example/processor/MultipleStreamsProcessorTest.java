@@ -27,6 +27,7 @@ public class MultipleStreamsProcessorTest {
 
     verify(unprocessedAdClickRecord).process();
 
+    assertThat(unprocessedAdClickRecord.process(), is(true));
     assertThat(unprocessedAdClickRecord.getProcessed(), is(true));
   }
 
@@ -38,6 +39,7 @@ public class MultipleStreamsProcessorTest {
 
     verify(unprocessedPageVisitRecord).process();
 
+    assertThat(unprocessedPageVisitRecord.process(), is(true));
     assertThat(unprocessedPageVisitRecord.getProcessed(), is(true));
   }
 }

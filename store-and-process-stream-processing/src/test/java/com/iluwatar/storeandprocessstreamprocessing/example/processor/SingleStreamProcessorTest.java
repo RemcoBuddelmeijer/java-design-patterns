@@ -1,5 +1,7 @@
 package com.iluwatar.storeandprocessstreamprocessing.example.processor;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.verify;
 
 import com.iluwatar.storeandprocessstreamprocessing.Record;
@@ -28,7 +30,7 @@ public class SingleStreamProcessorTest {
     });
     
     this.singleStreamProcessor.onRecord(unprocessedRecord);
-    verify(unprocessedRecord).process();
+    assertThat(verify(unprocessedRecord).process(), is(true));
   }
   
   @Test
@@ -41,6 +43,6 @@ public class SingleStreamProcessorTest {
     });
     
     this.singleStreamProcessor.onRecord(unprocessedRecord);
-    verify(unprocessedRecord).process();
+    assertThat(verify(unprocessedRecord).process(), is(false));
   }
 }
