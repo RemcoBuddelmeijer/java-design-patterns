@@ -7,12 +7,17 @@ import java.util.Queue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ *
+ * @author Remco Buddelmeijer (remco.buddelmeijer@gmail.com)
+ * @author Jakob Jenkov (creator of design pattern)
+ */
 public abstract class StreamProcessor {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(StreamProcessor.class);
 
-  //Default batch limit, used as guide and default value for StreamProcessors.
-  public static final int BATCH_LIMIT = 200;
+  //Default batch size, used as guide and default value for StreamProcessors.
+  public static final int DEFAULT_BATCH_SIZE = 200;
 
   protected final Queue<Record> batch;
 
@@ -20,7 +25,7 @@ public abstract class StreamProcessor {
    * Default StreamProcessor Implementation
    */
   protected StreamProcessor() {
-    this.batch = new ArrayDeque<>(BATCH_LIMIT);
+    this.batch = new ArrayDeque<>(DEFAULT_BATCH_SIZE);
   }
 
   protected StreamProcessor(Queue<Record> batch) {
@@ -59,7 +64,7 @@ public abstract class StreamProcessor {
    * @return if the record has successfully been added to the end of the batch.
    */
   protected final <T extends Record> boolean addRecordToBatch(T record) {
-    if (this.batch.size() >= BATCH_LIMIT || !this.batch.offer(record)) {
+    if (!this.batch.offer(record)) {
       LOGGER.warn("Unable to add {} to batch.", record);
       return false;
     }
@@ -80,7 +85,7 @@ public abstract class StreamProcessor {
         throw new NullPointerException();
       }
 
-      //... process the task
+      //Process the task
       if (record.process()) {
         LOGGER.info("Successfully processed {} ({}).", record, this.batch.size());
       } else {
