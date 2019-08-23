@@ -1,7 +1,7 @@
 package com.iluwatar.storeandprocessstreamprocessing;
 
-public abstract class Record {
+public interface Record {
 
-  public abstract boolean process();
+  boolean process();
 
 }
